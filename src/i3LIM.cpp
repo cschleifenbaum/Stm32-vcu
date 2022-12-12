@@ -286,9 +286,8 @@ void i3LIMClass::Send200msMessages(CanHardware* can)
 
 
 
-//if(Param::GetInt(Param::opmode)==MOD_RUN) bytes[0] = 0xfb;//f1=no obd reset. fb=obd reset.
-//if(Param::GetInt(Param::opmode)!=MOD_RUN) bytes[0] = 0xf1;//f1=no obd reset. fb=obd reset.
-      bytes[0] = 0xf1;
+if(Param::GetInt(Param::opmode)==MOD_RUN) bytes[0] = 0xfb;//f1=no obd reset. fb=obd reset.
+if(Param::GetInt(Param::opmode)!=MOD_RUN) bytes[0] = 0xf1;//f1=no obd reset. fb=obd reset.
       bytes[1] = 0xff;
       can->Send(0x3e8, (uint32_t*)bytes,2);
 
