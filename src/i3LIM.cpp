@@ -623,13 +623,10 @@ i3LIMChargingState i3LIMClass::Control_Charge(bool RunCh)
             CHG_Ready=ChargeReady::Rdy;
             CHG_Pwr=44000/25;//39kw approx power
             CCSI_Spnt=0;//No current
-            /*if(Cont_Volts<=50)*/lim_stateCnt++; //we wait for the contactor voltage to drop under 50v to indicate end of cable test
-            if(lim_stateCnt>10)
-            {
-               if(CCS_Iso==0x1) lim_state++; //next state after 2 secs if we have valid iso test
-               lim_stateCnt=0;
-            }
 
+            //we wsit until the charger is happy with isolation and wants to proceed to precharge phase
+            if(CCS_Iso==0x1 && CCS_IntStat==0x4)
+                lim_state++;
          }
          break;
 
@@ -655,8 +652,8 @@ i3LIMChargingState i3LIMClass::Control_Charge(bool RunCh)
                lim_stateCnt = 0;
             }
 
-            // Wait for contactor voltage to be stable for 2 seconds
-            if (lim_stateCnt > 20)
+            // Wait for contactor voltage to be stable for 1 second
+            if (lim_stateCnt > 10)
             {
                lim_state++; //next state after 2 secs
                lim_stateCnt = 0;
