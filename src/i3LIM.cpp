@@ -664,7 +664,7 @@ i3LIMChargingState i3LIMClass::Control_Charge(bool RunCh)
          {
             //precharge phase in this state but voltage close enough to close contactors
             Chg_Phase = ChargePhase::Subpoena;
-            CONT_Ctrl = 0x2;                   //dc contactor closed
+            CONT_Ctrl = Param::GetInt(Param::CHAdeMO_Ireq) > 0 ? 0x2 : 0x0;                   //dc contactor closed, but wait until the CHAdeMO simulation is ready
             FC_Cur = 0;                        //ccs current request from web ui for now.
             // EOC_Time=0x1E;//end of charge timer
             CHG_Status = ChargeStatus::Init;
