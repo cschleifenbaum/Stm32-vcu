@@ -678,6 +678,12 @@ i3LIMChargingState i3LIMClass::Control_Charge(bool RunCh)
             {
                lim_state++;
             }
+            // time out after 25 sec
+            else if (lim_stateCnt > 250 || CCS_IntStat==0x0f)
+            {
+               lim_state = 7;
+               lim_stateCnt = 0;
+            }
          }
          break;
 
